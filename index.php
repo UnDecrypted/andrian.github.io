@@ -1,0 +1,237 @@
+<?php
+    if ($_POST) {
+        if (isset($_COOKIE["email"])) {
+            setcookie("email", "", time() - (86400 * 30));
+            header("Location: index.php"); // Redirect ke dashboard
+            exit();
+        }
+    }
+?>
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Kaosant.co</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <style>
+            body {
+                overflow-x: hidden;
+                animation-name: bootanim;
+                animation-duration: 1s;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary shadow border-bottom border-black w-100" style="top: 0; position: sticky; z-index: 100;">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold" href="index.php">Kaosant.co</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index.php">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Products
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">T-Shirt</a></li>
+                                <li><a class="dropdown-item" href="#">Sweater</a></li>
+                                <li><a class="dropdown-item" href="#">Hoodie</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Etc</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About</a>
+                        </li>
+                    </ul>
+                    <?php
+                        if (isset($_COOKIE["email"])) {
+                            echo '
+                            <ul class="navbar-nav ms-auto">
+                                <li class="nav-item">
+                                    <a class="btn btn-outline-dark me-2" href="user.php">' . $_COOKIE["email"] . '</a>
+                                </li>
+                            </ul>';
+                        } else {
+                            echo '
+                            <ul class="navbar-nav ms-auto">
+                                <li class="nav-item">
+                                    <a class="btn btn-outline-dark me-2" href="signin.php">Sign In</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-dark" href="signup.php">Sign Up</a>
+                                </li>
+                            </ul>';
+                        }
+                    ?>
+                </div>
+            </div>
+        </nav>
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="static/images/au.png" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>First slide label</h5>
+                        <p>Some representative placeholder content for the first slide.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="static/images/juice.png" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Second slide label</h5>
+                        <p>Some representative placeholder content for the second slide.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="static/images/tylerasap.png" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Third slide label</h5>
+                        <p>Some representative placeholder content for the third slide.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="static/images/tylerasap.png" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Fourth slide label</h5>
+                        <p>Some representative placeholder content for the third slide.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary shadow border-bottom border-black">
+            <div class="container-fluid">
+                <div class="input-group w-auto col-sm-4">
+                    <span class="input-group-text bg-black.bg-gradient bi-search" id="basic-addon1"></span>
+                    <input id="search-input" type="text" class="form-control" placeholder="Items" aria-label="Items" aria-describedby="basic-addon1">
+                </div>
+                <?php
+                    if (isset($_COOKIE["email"]) && $_COOKIE["admin"] === "1") {
+                        echo '
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item">
+                                <a class="btn btn-outline-dark me-2" href="signin.php">Add Item</a>
+                            </li>
+                        </ul>
+                        ';
+                    }
+                ?>
+            </div>
+        </nav>
+        <div id="products" class="row row-cols-1 row-cols-md-5 g-2">
+            <?php
+                // Database Connection
+                $host = "localhost";
+                $username = "raihan";
+                $password = "raihanali";
+                $dbname = "kaosant";
+
+                $conn = new mysqli($host, $username, $password, $dbname);
+
+                // Check Connection
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+
+                // Query to get all data from users table
+                $sql = "SELECT * FROM products";
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $rawjson = $row["data"];
+                        $json = json_decode($rawjson, true);
+                        echo '
+                            <div class="col">
+                                <div id="p-card" class="card m-3 shadow">
+                                    <img src="static/images/p.jpg" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 id="card-tit" class="card-title m-0">Rp ' . $json["price"] . '</h5>
+                                        <h6 class="card-text m-0" style="opacity:0.75;">' . $json["name"] . '</h6>
+                                        <p class="card-text text-truncate" style="opacity:0.75;">' . $json["description"] . '</p>
+                                        <a href="product.php?method=view&id=' . $row["id"] . '" class="btn btn-outline-dark me-2">Go somewhere</a>';
+                        if (isset($_COOKIE["email"]) && $_COOKIE["admin"] === "1") {
+                            echo '
+                            <a href="#" class="btn btn-dark">Edit</a>
+                            ';
+                        };
+                        echo '</div>
+                            </div>
+                            </div>';
+                    }
+                }
+    
+                // Close Connection
+                $conn->close();
+            ?>
+        </div>
+        <nav>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+        </nav>
+        <script>
+            // var divp = document.getElementById("products");
+            // var dump = ``;
+            // for (i=0; i < 99; i++) {
+            //     dump = dump+`
+            //         <div class="col">
+            //             <div id="p-card" class="card m-3 shadow">
+            //                 <img src="static/images/p.jpg" class="card-img-top" alt="...">
+            //                 <div class="card-body">
+            //                     <h5 id="card-tit" class="card-title m-0">Card `+i+`</h5>
+            //                     <h6 class="card-text m-0" style="opacity:0.75;">product</h6>
+            //                     <p class="card-text text-truncate" style="opacity:0.75;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            //                     <a href="#" class="btn btn-outline-dark me-2">Go somewhere</a>
+            //                     <?php
+            //                         if (isset($_COOKIE["email"]) && $_COOKIE["admin"] === "1") {
+            //                             echo '
+            //                             <a href="#" class="btn btn-dark">Edit</a>
+            //                             ';
+            //                         }
+            //                     ?>
+            //                 </div>
+            //             </div>
+            //         </div>
+            //     `
+            // }
+            // divp.innerHTML = dump;
+            document.getElementById("search-input").addEventListener("input", function(){
+                var input = document.getElementById("search-input");
+                var divp = document.getElementById("products");
+                var cards = divp.getElementsByClassName("col");
+                var filter = input.value.toUpperCase();
+                console.log(cards.length);
+                for (i = 0; i < cards.length; i++) {
+                    var txt = cards[i].getElementsByTagName("h5")[0];
+                    if (txt.textContent.toUpperCase().indexOf(filter) > -1) {
+                        cards[i].style.display = "";
+                    } else {
+                        cards[i].style.display = "none";
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
