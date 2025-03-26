@@ -14,6 +14,7 @@
                 --btn-bg: rgba(0, 123, 255, 0.2);
                 --btn-hover: rgba(0, 123, 255, 0.4);
                 --btn-active: rgba(0, 123, 255, 0.8);
+                --countdown-color: #ffcc00;
             }
             .light-mode {
                 --bg-color: #f8f9fa;
@@ -23,6 +24,7 @@
                 --btn-bg: rgba(0, 123, 255, 0.6);
                 --btn-hover: rgba(0, 123, 255, 0.8);
                 --btn-active: rgba(0, 123, 255, 1);
+                --countdown-color: #ff5733;
             }
             body {
                 background: var(--bg-color);
@@ -78,6 +80,12 @@
                 margin-bottom: 30px;
                 color: var(--text-color);
             }
+            .countdown {
+                font-size: 20px;
+                font-weight: bold;
+                color: var(--countdown-color);
+                margin-top: 20px;
+            }
             .alert-info {
                 border-radius: 10px;
                 padding: 15px;
@@ -99,11 +107,20 @@
             <i id="themeToggle" class="bi bi-moon theme-toggle"></i>
             <h2 class="header-title">UnDecrypted.io</h2>
             <p class="subheading">Your key to securing scripts like never before!</p>
-            <button id="authButton" class="btn btn-glass">Get Auth Key</button>
+            
+            <button id="discordButton" class="btn btn-glass">
+                <i class="bi bi-discord me-2"></i> Join Our Discord
+            </button>
+            
             <div id="authDisplay" class="mt-3"></div>
+            <div id="countdownDisplay" class="countdown"></div>
         </div>
 
         <script>
+            const discordInviteLink = "https://discord.gg/your-invite-link";  // Replace with your Discord invite link
+            let countdownTimer;
+            let countdownValue = 10;  // Set countdown time to 10 seconds
+            
             function setCookie(name, value, days) {
                 let date = new Date();
                 date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
@@ -147,15 +164,38 @@
                     })
                     .catch(error => console.error('Error fetching JSON:', error));
             }
-            
-            document.getElementById("authButton").addEventListener("click", function() {
-                fetch('static/data.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        setCookie("authKey", data.key, 1);
-                        checkAuthKey();
-                    })
-                    .catch(error => console.error('Error fetching JSON:', error));
+
+            // Countdown logic
+            function startCountdown() {
+                countdownValue = 10;
+                countdownDisplay = document.getElementById("countdownDisplay");
+                countdownTimer = setInterval(function() {
+                    countdownDisplay.textContent = `Authentication in: ${countdownValue}s`;
+                    countdownValue--;
+                    if (countdownValue < 0) {
+                        clearInterval(countdownTimer);
+                        document.getElementById("authDisplay").innerHTML = `
+                            <div class="alert alert-success fade-in" role="alert">
+                                <i class="bi bi-check-circle-fill me-2"></i> 
+                                Authentication Complete! You may now access your script.
+                            </div>
+                        `;
+                    }
+                }, 1000);
+            }
+
+            document.getElementById("discordButton").addEventListener("click", function() {
+                window.open(discordInviteLink, "_blank");
+                
+                setTimeout(() => {
+                    document.getElementById("authDisplay").innerHTML = `
+                        <div class="alert alert-info fade-in" role="alert">
+                            <i class="bi bi-info-circle me-2"></i> 
+                            Please join the Discord server to authenticate.
+                        </div>
+                    `;
+                    startCountdown();  // Start countdown after redirecting to Discord
+                }, 1000);  // Simulate redirection delay
             });
 
             // Dark Mode Toggle Logic
