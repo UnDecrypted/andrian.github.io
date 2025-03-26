@@ -54,28 +54,28 @@
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="static/au.png" class="d-block w-100" alt="...">
+                    <img src="static/images/au.png" class="d-block w-100" alt="...">
                     <div class="carousel-caption d-none d-md-block">
                         <h5>First slide label</h5>
                         <p>Some representative placeholder content for the first slide.</p>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="static/juice.png" class="d-block w-100" alt="...">
+                    <img src="static/images/juice.png" class="d-block w-100" alt="...">
                     <div class="carousel-caption d-none d-md-block">
                         <h5>Second slide label</h5>
                         <p>Some representative placeholder content for the second slide.</p>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="static/tylerasap.png" class="d-block w-100" alt="...">
+                    <img src="static/images/tylerasap.png" class="d-block w-100" alt="...">
                     <div class="carousel-caption d-none d-md-block">
                         <h5>Third slide label</h5>
                         <p>Some representative placeholder content for the third slide.</p>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="static/tylerasap.png" class="d-block w-100" alt="...">
+                    <img src="static/images/tylerasap.png" class="d-block w-100" alt="...">
                     <div class="carousel-caption d-none d-md-block">
                         <h5>Fourth slide label</h5>
                         <p>Some representative placeholder content for the third slide.</p>
@@ -100,9 +100,21 @@
             </div>
         </nav>
         <div id="products" class="row row-cols-1 row-cols-md-5 g-2">
+            <script>
+                const fs = require("fs");
+
+                fs.readFile("static/data.json", "utf8", (err, data) => {
+                    if (err) {
+                        console.error("Error reading file:", err);
+                        return;
+                    }
+                    const jsonData = JSON.parse(data);
+                    console.log(jsonData);
+                });
+            </script>
             <div class="col">
                 <div id="p-card" class="card m-3 shadow">
-                    <img src="static/p.jpg" class="card-img-top" alt="...">
+                    <img src="static/images/p.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 id="card-tit" class="card-title m-0">Rp 20.000</h5>
                         <h6 class="card-text m-0" style="opacity:0.75;">Sisri Apel</h6>
