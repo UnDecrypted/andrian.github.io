@@ -64,12 +64,29 @@
                 cursor: pointer;
                 font-size: 24px;
             }
+            /* Make the logo bigger */
+            .logo {
+                width: 120px; /* Increased size */
+                height: auto;
+                transition: transform 0.3s ease-in-out;
+            }
+            /* Add outline to logo to ensure visibility */
+            .logo-light {
+                border: 2px solid #212529; /* Dark border for light mode */
+                border-radius: 5px;
+                padding: 5px;
+            }
+            .logo-dark {
+                border: 2px solid #ffffff; /* Light border for dark mode */
+                border-radius: 5px;
+                padding: 5px;
+            }
         </style>
     </head>
     <body>
         <div class="glassmorphism fade-in">
             <i id="themeToggle" class="bi bi-moon theme-toggle"></i>
-            <img src="static/undecrypted.png" alt="UnDecrypted.io" style="width: 80px; height: auto; margin-bottom: 15px;">
+            <img id="logo" src="static/undecrypted.png" alt="UnDecrypted.io" class="logo logo-dark">
             <h2>UnDecrypted.io</h2>
             <p>Secure your scripts like never before!</p>
             <button id="authButton" class="btn btn-glass mt-2">Get Auth Key</button>
@@ -133,16 +150,21 @@
 
             // Dark Mode Toggle Logic
             const themeToggle = document.getElementById("themeToggle");
+            const logo = document.getElementById("logo");
             function setTheme(mode) {
                 if (mode === "light") {
                     document.body.classList.add("light-mode");
                     themeToggle.classList.remove("bi-moon");
                     themeToggle.classList.add("bi-sun");
+                    logo.classList.remove("logo-dark");
+                    logo.classList.add("logo-light");
                     localStorage.setItem("theme", "light");
                 } else {
                     document.body.classList.remove("light-mode");
                     themeToggle.classList.remove("bi-sun");
                     themeToggle.classList.add("bi-moon");
+                    logo.classList.remove("logo-light");
+                    logo.classList.add("logo-dark");
                     localStorage.setItem("theme", "dark");
                 }
             }
