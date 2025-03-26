@@ -1,3 +1,14 @@
 [
-  {}
+    {
+        "Item1" : {
+            "id": 1,
+            "Name" : "Item1",
+            "Price" : 100
+        },
+        "Item2" : {
+            "id": 2,
+            "Name" : "Item2",
+            "Price" : 200
+        }
+    }
 ]
