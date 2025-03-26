@@ -44,15 +44,28 @@
                 return null;
             }
             
+            function deleteCookie(name) {
+                document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+            }
+            
             function checkAuthKey() {
-                let authKey = getCookie("authKey");
-                let authButton = document.getElementById("authButton");
-                let authDisplay = document.getElementById("authDisplay");
-                
-                if (authKey) {
-                    authButton.style.display = "none";
-                    authDisplay.innerHTML = `<div class='alert alert-info'>Auth Key: ${authKey}</div>`;
-                }
+                fetch('static/data.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        let authKey = getCookie("authKey");
+                        let authButton = document.getElementById("authButton");
+                        let authDisplay = document.getElementById("authDisplay");
+                        
+                        if (authKey !== data.key) {
+                            deleteCookie("authKey");
+                            authButton.style.display = "block";
+                            authDisplay.innerHTML = "";
+                        } else {
+                            authButton.style.display = "none";
+                            authDisplay.innerHTML = `<div class='alert alert-info'>Auth Key: ${authKey}</div>`;
+                        }
+                    })
+                    .catch(error => console.error('Error fetching JSON:', error));
             }
             
             document.getElementById("authButton").addEventListener("click", function() {
