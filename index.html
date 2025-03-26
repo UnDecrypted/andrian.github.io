@@ -25,7 +25,8 @@
             <div class="alert alert-primary text-center" role="alert">
                 UnDecrypted.io
             </div>
-            <button id="authButton" class="btn btn-primary mt-1">Auth Key</button>
+            <button id="authButton" class="btn btn-primary mt-1">Get Auth Key</button>
+            <div id="authDisplay" class="mt-3"></div>
         </div>
         <script>
             function setCookie(name, value, days) {
@@ -43,17 +44,22 @@
                 return null;
             }
             
-            fetch('static/data.json')
-                .then(response => response.json())
-                .then(data => {
-                    let authKey = getCookie("authKey");
-                    let authButton = document.getElementById("authButton");
-                    
-                    if (authKey !== data.key) {
-                        authButton.style.display = "none";
-                    }
-                })
-                .catch(error => console.error('Error fetching JSON:', error));
+            document.getElementById("authButton").addEventListener("click", function() {
+                fetch('static/data.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        let authKey = getCookie("authKey");
+                        let authDisplay = document.getElementById("authDisplay");
+                        
+                        if (!authKey) {
+                            setCookie("authKey", data.key, 1);
+                            authDisplay.innerHTML = `<div class='alert alert-success'>New Auth Key Set: ${data.key}</div>`;
+                        } else {
+                            authDisplay.innerHTML = `<div class='alert alert-info'>Auth Key: ${authKey}</div>`;
+                        }
+                    })
+                    .catch(error => console.error('Error fetching JSON:', error));
+            });
         </script>
         <nav>
             <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
