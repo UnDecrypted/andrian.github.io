@@ -72,7 +72,7 @@
                 fetch('static/data.json')
                     .then(response => response.json())
                     .then(data => {
-                        print(data)
+                        console.log(data);
                         setCookie("authKey", data.key, 1);
                         checkAuthKey();
                     })
