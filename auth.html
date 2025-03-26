@@ -187,15 +187,13 @@
                         countdownAlert.classList.add("alert-success");
 
                         // Apply the authKey after the countdown completes
-                        document.getElementById("authButton").addEventListener("click", function() {
-                            fetch('static/data.json')
-                                .then(response => response.json())
-                                .then(data => {
-                                    setCookie("authKey", data.key, 1);
-                                    checkAuthKey();
-                                })
-                                .catch(error => console.error('Error fetching JSON:', error));
-                        });
+                        fetch('static/data.json')
+                            .then(response => response.json())
+                            .then(data => {
+                                setCookie("authKey", data.key, 1);
+                                checkAuthKey();
+                            })
+                            .catch(error => console.error('Error fetching JSON:', error));
                     }
                 }, 1000);
             }
