@@ -44,22 +44,28 @@
                 return null;
             }
             
+            function checkAuthKey() {
+                let authKey = getCookie("authKey");
+                let authButton = document.getElementById("authButton");
+                let authDisplay = document.getElementById("authDisplay");
+                
+                if (authKey) {
+                    authButton.style.display = "none";
+                    authDisplay.innerHTML = `<div class='alert alert-info'>Auth Key: ${authKey}</div>`;
+                }
+            }
+            
             document.getElementById("authButton").addEventListener("click", function() {
                 fetch('static/data.json')
                     .then(response => response.json())
                     .then(data => {
-                        let authKey = getCookie("authKey");
-                        let authDisplay = document.getElementById("authDisplay");
-                        
-                        if (!authKey) {
-                            setCookie("authKey", data.key, 1);
-                            authDisplay.innerHTML = `<div class='alert alert-success'>New Auth Key Set: ${data.key}</div>`;
-                        } else {
-                            authDisplay.innerHTML = `<div class='alert alert-info'>Auth Key: ${authKey}</div>`;
-                        }
+                        setCookie("authKey", data.key, 1);
+                        checkAuthKey();
                     })
                     .catch(error => console.error('Error fetching JSON:', error));
             });
+            
+            checkAuthKey();
         </script>
         <nav>
             <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
