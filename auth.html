@@ -2,57 +2,58 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Join Our Discord & Authenticate</title>
+        <title>UnDecrypted.io</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <style>
             :root {
-                --bg-color-dark: #121212;
-                --bg-color-light: #ffffff;
-                --text-color-dark: #ffffff;
-                --text-color-light: #121212;
-                --glass-bg-dark: rgba(255, 255, 255, 0.1);
-                --glass-bg-light: rgba(0, 0, 0, 0.1);
-                --border-color-dark: rgba(255, 255, 255, 0.3);
-                --border-color-light: rgba(0, 0, 0, 0.3);
+                --bg-color: #121212;
+                --text-color: #ffffff;
+                --glass-bg: rgba(255, 255, 255, 0.1);
+                --border-color: rgba(255, 255, 255, 0.3);
                 --btn-bg: rgba(0, 123, 255, 0.2);
                 --btn-hover: rgba(0, 123, 255, 0.4);
                 --btn-active: rgba(0, 123, 255, 0.8);
-                --countdown-color-dark: #ffcc00;
-                --countdown-color-light: #ff5733;
+                --countdown-color: #ffcc00;
+            }
+            .light-mode {
+                --bg-color: #f8f9fa;
+                --text-color: #212529;
+                --glass-bg: rgba(255, 255, 255, 0.7);
+                --border-color: rgba(0, 0, 0, 0.2);
+                --btn-bg: rgba(0, 123, 255, 0.6);
+                --btn-hover: rgba(0, 123, 255, 0.8);
+                --btn-active: rgba(0, 123, 255, 1);
+                --countdown-color: #ff5733;
             }
             body {
+                background: var(--bg-color);
+                color: var(--text-color);
                 height: 100vh;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                margin: 0;
-                padding: 0;
-                font-family: Arial, sans-serif;
-                background: var(--bg-color-dark);
                 transition: background 0.5s, color 0.5s;
             }
             .glassmorphism {
-                background: var(--glass-bg-dark);
-                backdrop-filter: blur(15px);
+                background: var(--glass-bg);
+                backdrop-filter: blur(10px);
                 border-radius: 20px;
-                padding: 50px 40px;
+                padding: 40px 30px;
                 text-align: center;
-                box-shadow: 0 4px 30px var(--border-color-dark);
-                max-width: 500px;
-                color: var(--text-color-dark);
-                transition: background 0.3s, box-shadow 0.3s;
-                margin: auto;
+                box-shadow: 0 4px 30px var(--border-color);
+                max-width: 450px;
+                color: var(--text-color);
             }
             .btn-glass {
                 background: var(--btn-bg);
-                color: var(--text-color-dark);
-                border: 2px solid var(--border-color-dark);
+                color: var(--text-color);
+                border: 2px solid var(--border-color);
                 transition: all 0.3s ease-in-out;
                 border-radius: 12px;
                 padding: 12px 24px;
-                font-size: 18px;
-                margin-top: 30px;
+                font-size: 16px;
+                margin-top: 20px;
             }
             .btn-glass:hover {
                 background: var(--btn-hover);
@@ -66,25 +67,32 @@
                 top: 20px;
                 right: 20px;
                 cursor: pointer;
-                font-size: 28px;
+                font-size: 24px;
             }
             .header-title {
-                font-size: 36px;
+                font-size: 30px;
                 font-weight: bold;
-                margin-bottom: 30px;
-                color: var(--text-color-dark);
+                margin-bottom: 20px;
+                color: var(--text-color);
             }
             .subheading {
+                font-size: 18px;
+                margin-bottom: 30px;
+                color: var(--text-color);
+            }
+            .countdown {
                 font-size: 20px;
-                margin-bottom: 40px;
-                color: var(--text-color-dark);
+                font-weight: bold;
+                color: var(--countdown-color);
+                margin-top: 20px;
             }
             .alert-info {
                 border-radius: 10px;
                 padding: 15px;
                 font-size: 16px;
-                margin-top: 30px;
+                margin-top: 20px;
             }
+            /* Smooth animation */
             .fade-in {
                 animation: fadeIn 1s ease-in-out;
             }
@@ -92,127 +100,134 @@
                 from { opacity: 0; }
                 to { opacity: 1; }
             }
-            .countdown {
-                font-size: 24px;
-                font-weight: bold;
-                color: var(--countdown-color-dark);
-                margin-top: 20px;
-                transition: color 0.3s ease;
-            }
-            .alert {
-                border-radius: 10px;
-                padding: 15px;
-                margin-top: 20px;
-            }
-
-            /* Light Theme Tweaks */
-            .light-theme .glassmorphism {
-                background: var(--glass-bg-light);
-                box-shadow: 0 4px 30px var(--border-color-light);
-            }
-            .light-theme .btn-glass {
-                background: var(--btn-bg);
-                color: var(--text-color-light);
-                border: 2px solid var(--border-color-light);
-            }
-            .light-theme .btn-glass:hover {
-                background: var(--btn-hover);
-                cursor: pointer;
-            }
-            .light-theme .btn-glass:active {
-                background: var(--btn-active);
-            }
         </style>
     </head>
     <body>
         <div class="glassmorphism fade-in">
+            <i id="themeToggle" class="bi bi-moon theme-toggle"></i>
             <h2 class="header-title">UnDecrypted.io</h2>
-            <p class="subheading">Please join our Discord server to authenticate.</p>
-
-            <button id="joinDiscordButton" class="btn btn-glass">
-                <i class="bi bi-discord me-2"></i>Join Our Discord
+            <p class="subheading">Your key to securing scripts like never before!</p>
+            
+            <button id="discordButton" class="btn btn-glass">
+                <i class="bi bi-discord me-2"></i> Join Our Discord
             </button>
-
+            
             <div id="authDisplay" class="mt-3"></div>
-
-            <div class="theme-toggle">
-                <i id="themeIcon" class="bi bi-moon"></i>
-            </div>
+            <div id="countdownDisplay" class="countdown"></div>
         </div>
 
         <script>
             const discordInviteLink = "https://discord.gg/your-invite-link";  // Replace with your Discord invite link
             let countdownTimer;
             let countdownValue = 10;  // Set countdown time to 10 seconds
-
-            // Get theme from localStorage or default to dark
-            let currentTheme = localStorage.getItem('theme') || 'dark';
-            applyTheme(currentTheme);
-
-            // Apply theme
-            function applyTheme(theme) {
-                if (theme === 'light') {
-                    document.body.style.background = 'var(--bg-color-light)';
-                    document.body.style.color = 'var(--text-color-light)';
-                    document.getElementById("themeIcon").classList.remove("bi-moon");
-                    document.getElementById("themeIcon").classList.add("bi-sun");
-                    document.body.classList.add('light-theme');
-                    document.querySelector(".glassmorphism").style.background = 'var(--glass-bg-light)';
-                    document.querySelector(".glassmorphism").style.boxShadow = '0 4px 30px var(--border-color-light)';
-                    document.querySelector(".btn-glass").style.color = 'var(--text-color-light)';
-                } else {
-                    document.body.style.background = 'var(--bg-color-dark)';
-                    document.body.style.color = 'var(--text-color-dark)';
-                    document.getElementById("themeIcon").classList.remove("bi-sun");
-                    document.getElementById("themeIcon").classList.add("bi-moon");
-                    document.body.classList.remove('light-theme');
-                    document.querySelector(".glassmorphism").style.background = 'var(--glass-bg-dark)';
-                    document.querySelector(".glassmorphism").style.boxShadow = '0 4px 30px var(--border-color-dark)';
-                    document.querySelector(".btn-glass").style.color = 'var(--text-color-dark)';
+            
+            function setCookie(name, value, days) {
+                let date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                document.cookie = `${name}=${value}; expires=${date.toUTCString()}; path=/`;
+            }
+            
+            function getCookie(name) {
+                let cookies = document.cookie.split('; ');
+                for (let cookie of cookies) {
+                    let [key, value] = cookie.split('=');
+                    if (key === name) return value;
                 }
+                return null;
+            }
+            
+            function deleteCookie(name) {
+                document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+            }
+            
+            function checkAuthKey() {
+                fetch('static/data.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        let authKey = getCookie("authKey");
+                        let authButton = document.getElementById("authButton");
+                        let authDisplay = document.getElementById("authDisplay");
+                        
+                        if (authKey !== data.key) {
+                            deleteCookie("authKey");
+                            authButton.style.display = "block";
+                            authDisplay.innerHTML = "";
+                        } else {
+                            authButton.style.display = "none";
+                            authDisplay.innerHTML = `
+                                <div class="alert alert-success fade-in" role="alert">
+                                    <i class="bi bi-check-circle-fill me-2"></i> 
+                                    <strong>Auth Key:</strong> ${authKey}
+                                </div>
+                            `;
+                        }
+                    })
+                    .catch(error => console.error('Error fetching JSON:', error));
             }
 
-            // Toggle theme
-            document.getElementById("themeIcon").addEventListener("click", () => {
-                currentTheme = (currentTheme === 'dark') ? 'light' : 'dark';
-                localStorage.setItem('theme', currentTheme);
-                applyTheme(currentTheme);
-            });
-
-            // Countdown timer function
+            // Countdown logic
             function startCountdown() {
                 countdownValue = 10;
+                countdownDisplay = document.getElementById("countdownDisplay");
+                
+                // Create an alert to display the countdown
+                let countdownAlert = document.createElement("div");
+                countdownAlert.classList.add("alert", "alert-info", "fade-in");
+                countdownAlert.setAttribute("role", "alert");
+                countdownAlert.id = "countdownAlert";
+                countdownDisplay.appendChild(countdownAlert);
+                
                 countdownTimer = setInterval(function() {
-                    alert(`Authentication in: ${countdownValue}s`);  // Alert countdown message
+                    countdownAlert.innerHTML = `Authentication in: ${countdownValue}s`;  // Update the alert text
                     countdownValue--;
                     if (countdownValue < 0) {
                         clearInterval(countdownTimer);
-                        document.getElementById("authDisplay").innerHTML = `
-                            <div class="alert alert-success fade-in" role="alert">
-                                <i class="bi bi-check-circle-fill me-2"></i> 
-                                Welcome to the server! You can now authenticate.
-                            </div>
-                        `;
+                        countdownAlert.innerHTML = `Authentication Complete! You may now access your script.`;
+                        countdownAlert.classList.remove("alert-info");
+                        countdownAlert.classList.add("alert-success");
                     }
                 }, 1000);
             }
 
-            // Check if the user has joined the Discord server
-            document.getElementById("joinDiscordButton").addEventListener("click", function() {
+            document.getElementById("discordButton").addEventListener("click", function() {
                 window.open(discordInviteLink, "_blank");
                 
-                // Simulate redirection delay before showing countdown
                 setTimeout(() => {
                     document.getElementById("authDisplay").innerHTML = `
-                        <div class="alert alert-warning fade-in" role="alert">
+                        <div class="alert alert-info fade-in" role="alert">
                             <i class="bi bi-info-circle me-2"></i> 
                             Please join the Discord server to authenticate.
                         </div>
                     `;
-                    // Start countdown before authentication
-                    startCountdown();
+                    startCountdown();  // Start countdown after redirecting to Discord
                 }, 1000);  // Simulate redirection delay
             });
+
+            // Dark Mode Toggle Logic
+            const themeToggle = document.getElementById("themeToggle");
+            function setTheme(mode) {
+                if (mode === "light") {
+                    document.body.classList.add("light-mode");
+                    themeToggle.classList.remove("bi-moon");
+                    themeToggle.classList.add("bi-sun");
+                    localStorage.setItem("theme", "light");
+                } else {
+                    document.body.classList.remove("light-mode");
+                    themeToggle.classList.remove("bi-sun");
+                    themeToggle.classList.add("bi-moon");
+                    localStorage.setItem("theme", "dark");
+                }
+            }
+            
+            themeToggle.addEventListener("click", () => {
+                const currentTheme = localStorage.getItem("theme") || "dark";
+                setTheme(currentTheme === "dark" ? "light" : "dark");
+            });
+
+            // Load saved theme
+            setTheme(localStorage.getItem("theme") || "dark");
+
+            checkAuthKey();
         </script>
 
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
