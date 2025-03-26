@@ -24,19 +24,12 @@
         }
 
         if (getCookie("authKey")) {
-            fetch('static/main.lua')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Failed to load Lua script');
-                    }
-                    return response.text();
-                })
+            fetch('static/data.json')
+                .then(response => response.json())
                 .then(data => {
-                    document.getElementById("luaContent").textContent = data;
+                    document.getElementById("luaContent").textContent = data.script;
                 })
-                .catch(error => {
-                    document.getElementById("luaContent").textContent = "Error loading script: " + error.message;
-                });
+                .catch(error => console.error('Error fetching JSON:', error));
         } else {
             window.location.href = "index.html";
         }
