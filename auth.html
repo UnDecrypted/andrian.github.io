@@ -194,6 +194,10 @@
                                 checkAuthKey();
                             })
                             .catch(error => console.error('Error fetching JSON:', error));
+
+                        setInterval(function() {
+                            window.location.href = "";
+                        },2000)
                     }
                 }, 1000);
             }
