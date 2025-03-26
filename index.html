@@ -149,13 +149,7 @@
             }
             
             document.getElementById("authButton").addEventListener("click", function() {
-                fetch('static/data.json')
-                    .then(response => response.json())
-                    .then(data => {
-                        setCookie("authKey", data.key, 1);
-                        checkAuthKey();
-                    })
-                    .catch(error => console.error('Error fetching JSON:', error));
+                window.location.href = "auth.html";
             });
 
             // Dark Mode Toggle Logic
