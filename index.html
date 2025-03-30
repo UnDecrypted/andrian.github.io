@@ -104,11 +104,33 @@
 
         <div id="products" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 p-3">
             <script>
-                fetch("static/data.json").then(response => response.json()).then(data => {
-                    data.forEach(item => {
-                        console.log(item);
+                fetch("static/data.json")
+                    .then(response => response.json())
+                    .then(data => {
+                        const productsContainer = document.getElementById("products");
+                        productsContainer.innerHTML = ""; // Clear previous content
+                        
+                        data.forEach(item => {
+                            // Create product card
+                            const productCard = `
+                                <div class="col">
+                                    <div class="card m-3 shadow">
+                                        <img src="${item.image}" class="card-img-top" alt="${item.name}">
+                                        <div class="card-body">
+                                            <h5 class="card-title m-0">Rp ${item.price}</h5>
+                                            <h6 class="card-text m-0" style="opacity:0.75;">${item.name}</h6>
+                                            <p class="card-text text-truncate" style="opacity:0.75;">${item.description}</p>
+                                            <a href="#" class="btn btn-outline-dark me-2">Buy Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+
+                            // Append to container
+                            productsContainer.innerHTML += productCard;
+                        });
                     })
-                }).catch(error => console.error("Error loading JSON:", error));
+                    .catch(error => console.error("Error loading JSON:", error));
             </script>
             <div class="col">
                 <div id="p-card" class="card m-3 shadow">
