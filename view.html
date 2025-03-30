@@ -111,7 +111,7 @@
                             document.getElementById("productDescription").textContent = item.description;
                         
                             // Set product details
-                            document.getElementById("productDetails").textContent = "This is a detailed description of the product. You can provide more details here, such as the material, size, color options, etc.";
+                            document.getElementById("productDetails").textContent = item.view.description;
                         
                             // Populate carousel images dynamically
                             const carouselInner = document.getElementById("carouselImages");
@@ -135,7 +135,7 @@
                         
                             // Buy Now button action
                             document.getElementById("buyNowButton").addEventListener("click", function() {
-                                const waMessage = `Hello, I am interested in purchasing the product: ${item.name}. Is it still available?`;
+                                const waMessage = `Hello, Apakah Barang \n \n ${item.name} \n \n Masih Ada?`;
                                 const waLink = `https://api.whatsapp.com/send?phone=6289525032522&text=${encodeURIComponent(waMessage)}`;
                                 window.open(waLink, "_blank");
                             });
