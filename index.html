@@ -104,7 +104,7 @@
 
         <div id="products" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 p-3">
             <script>
-                fetch("static/data.json")
+                fetch("https://raw.githubusercontent.com/UnDecrypted/undecrypted.github.io/refs/heads/main/static/data.json")
                     .then(response => response.json())
                     .then(data => {
                         const productsContainer = document.getElementById("products");
