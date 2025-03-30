@@ -17,14 +17,14 @@
     <body>
         <nav class="navbar navbar-expand-lg bg-body-tertiary shadow border-bottom border-black w-100" style="top: 0; position: sticky; z-index: 100;">
             <div class="container-fluid">
-                <a class="navbar-brand fw-bold" href="index.php">UnDecrypted.co</a>
+                <a class="navbar-brand fw-bold" href="index">UnDecrypted.co</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="index.php">Home</a>
+                            <a class="nav-link active" aria-current="page" href="index">Home</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -127,7 +127,7 @@
                                             <h5 class="card-title m-0">Rp ${item.price}</h5>
                                             <h6 class="card-text m-0" style="opacity:0.75;">${item.name}</h6>
                                             <p class="card-text text-truncate" style="opacity:0.75;">${item.description}</p>
-                                            <a href="viewer.html?name=${item.name}" class="btn btn-outline-dark me-2">View</a>
+                                            <a href="view?name=${item.name}" class="btn btn-outline-dark me-2">View</a>
                                             <a href="${generateWa(`Hello, Apakah Barang \n \n ${item.name} \n \n Masih Ada?`)}" class="btn btn-outline-dark me-2">Buy Now</a>
                                         </div>
                                     </div>
