@@ -1,14 +1,8 @@
 [
     {
-        "name": "T-Shirt Black",
-        "price": "50.000",
-        "image": "static/images/tshirt_black.jpg",
+        "name": "ZX-25R",
+        "price": "110.600.000",
+        "image": "https://www.micramoto.com/wp-content/uploads/2020/10/2020-Kawasaki-ZX-25R-micramoto-10.jpg",
         "description": "Comfortable black t-shirt"
-    },
-    {
-        "name": "Hoodie Gray",
-        "price": "150.000",
-        "image": "static/images/hoodie_gray.jpg",
-        "description": "Warm and stylish gray hoodie"
     }
 ]
