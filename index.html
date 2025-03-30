@@ -104,7 +104,14 @@
 
         <div id="products" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 p-3">
             <script>
-                fetch("https://raw.githubusercontent.com/UnDecrypted/undecrypted.github.io/refs/heads/main/static/data.json")
+                function generateWa(txt) {
+                    var wa = "https://api.whatsapp.com/send?phone=6281234567890&text=" + encodeURIComponent(txt);
+                    return wa;
+                }
+
+                console.log(generateWa("Hello, I am interested in your product."));
+
+                fetch("static/data.json")
                     .then(response => response.json())
                     .then(data => {
                         const productsContainer = document.getElementById("products");
