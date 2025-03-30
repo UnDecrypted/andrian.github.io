@@ -1,4 +1,14 @@
-{
-    "key": "anjay",
-    "script": ""
-}
+[
+    {
+        "name": "T-Shirt Black",
+        "price": "50.000",
+        "image": "static/images/tshirt_black.jpg",
+        "description": "Comfortable black t-shirt"
+    },
+    {
+        "name": "Hoodie Gray",
+        "price": "150.000",
+        "image": "static/images/hoodie_gray.jpg",
+        "description": "Warm and stylish gray hoodie"
+    }
+]
