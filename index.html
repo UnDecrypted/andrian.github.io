@@ -45,6 +45,7 @@
                 </div>
             </div>
         </nav>
+
         <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -83,73 +84,62 @@
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
             </button>
             <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
             </button>
         </div>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary shadow border-bottom border-black">
+
+        <div class="navbar navbar-expand-lg bg-body-tertiary shadow border-bottom border-black">
             <div class="container-fluid">
-                <div class="input-group w-auto col-sm-4">
-                    <span class="input-group-text bg-black.bg-gradient bi-search" id="basic-addon1"></span>
-                    <input id="search-input" type="text" class="form-control" placeholder="Items" aria-label="Items" aria-describedby="basic-addon1">
+                <div class="input-group w-100 col-lg-6 col-md-8 mx-auto">
+                    <span class="input-group-text bg-dark text-white bi-search" id="basic-addon1"></span>
+                    <input id="search-input" type="text" class="form-control border-dark" placeholder="Search for items..." aria-label="Items" aria-describedby="basic-addon1">
                 </div>
             </div>
-        </nav>
-        <div id="products" class="row row-cols-1 row-cols-md-5 g-2">
+        </div>
+
+        <div id="products" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 p-3">
+            <script>
+                fetch("static/data.json").then(response => response.json()).then(data => {
+                    data.forEach(item => {
+                        console.log(item);
+                    })
+                }).catch(error => console.error("Error loading JSON:", error));
+            </script>
             <div class="col">
                 <div id="p-card" class="card m-3 shadow">
                     <img src="static/images/p.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 id="card-tit" class="card-title m-0">Rp 100.000</h5>
-                        <h6 class="card-text m-0" style="opacity:0.75;">Kontol</h6>
-                        <p class="card-text text-truncate" style="opacity:0.75;">lolll</p>
-                        <a href="product.php?method=view&id=" class="btn btn-outline-dark me-2">Go somewhere</a>
+                        <h5 id="card-tit" class="card-title m-0">Rp 20.000</h5>
+                        <h6 class="card-text m-0" style="opacity:0.75;">Sisri Apel</h6>
+                        <p class="card-text text-truncate" style="opacity:0.75;">Seger Boloo</p>
+                        <a href="#" class="btn btn-outline-dark me-2">Go somewhere</a>
                     </div>
                 </div>
             </div>
         </div>
+
+        <footer class="text-center py-3">
+            <p class="mb-0">© 2025 Kaosant.co. All Rights Reserved.</p>
+        </footer>
+
         <nav>
             <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
         </nav>
+
         <script>
-            // var divp = document.getElementById("products");
-            // var dump = ``;
-            // for (i=0; i < 99; i++) {
-            //     dump = dump+`
-            //         <div class="col">
-            //             <div id="p-card" class="card m-3 shadow">
-            //                 <img src="static/images/p.jpg" class="card-img-top" alt="...">
-            //                 <div class="card-body">
-            //                     <h5 id="card-tit" class="card-title m-0">Card `+i+`</h5>
-            //                     <h6 class="card-text m-0" style="opacity:0.75;">product</h6>
-            //                     <p class="card-text text-truncate" style="opacity:0.75;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            //                     <a href="#" class="btn btn-outline-dark me-2">Go somewhere</a>
-            //                     <?php
-            //                         if (isset($_COOKIE["email"]) && $_COOKIE["admin"] === "1") {
-            //                             echo '
-            //                             <a href="#" class="btn btn-dark">Edit</a>
-            //                             ';
-            //                         }
-            //                     ?>
-            //                 </div>
-            //             </div>
-            //         </div>
-            //     `
-            // }
-            // divp.innerHTML = dump;
             document.getElementById("search-input").addEventListener("input", function(){
                 var input = document.getElementById("search-input");
                 var divp = document.getElementById("products");
                 var cards = divp.getElementsByClassName("col");
                 var filter = input.value.toUpperCase();
-                console.log(cards.length);
                 for (i = 0; i < cards.length; i++) {
-                    var txt = cards[i].getElementsByTagName("h5")[0];
+                    var txt = cards[i].getElementsByTagName("h6")[0];
                     if (txt.textContent.toUpperCase().indexOf(filter) > -1) {
                         cards[i].style.display = "";
                     } else {
