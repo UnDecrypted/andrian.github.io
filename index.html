@@ -43,10 +43,10 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="index">Home</a>
+                            <a class="nav-link" href="testimonial">Testimonial</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Transaction</a>
+                            <a class="nav-link" href="about">About</a>
                         </li>
                     </ul>
                 </div>
@@ -110,7 +110,7 @@
                     })
                     .catch(error => console.error('Error loading JSON:', error));
 
-                fetch("static/data.json")
+                fetch("static/products.json")
                     .then(response => response.json())
                     .then(data => {
                         const productsContainer = document.getElementById("products");
