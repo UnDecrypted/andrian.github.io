@@ -91,46 +91,64 @@
             fetch("static/products.json")
                 .then(response => response.json())
                 .then(data => {
-                    data.forEach(item => {
-                        if (item.name === getQueryParam("name")) {
-                            // Set product title and price
-                            document.getElementById("productTitle").textContent = item.name;
-                            document.getElementById("productPrice").textContent = `Rp ${item.price}`;
-                            document.getElementById("productDescription").textContent = item.description;
-                        
-                            // Set product details
-                            document.getElementById("productDetails").textContent = item.view.details;
-                        
-                            // Populate carousel images dynamically
-                            const carouselInner = document.getElementById("carouselImages");
-                            let isActive = true;
-                            Object.values(item.view.image).forEach((img, index) => {
-                                const carouselItem = document.createElement('div');
-                                carouselItem.classList.add('carousel-item');
-                                if (isActive) {
-                                    carouselItem.classList.add('active');
-                                    isActive = false;
-                                }
-                                
-                                const image = document.createElement('img');
-                                image.src = img.src;
-                                image.alt = img.alt;
-                                image.classList.add('d-block', 'w-100', 'gallery-image');
-                                
-                                carouselItem.appendChild(image);
-                                carouselInner.appendChild(carouselItem);
-                            });
-                        
-                            // Buy Now button action
-                            document.getElementById("buyNowButton").addEventListener("click", function() {
-                                const waMessage = `Hello, Apakah Barang \n \n ${item.name} \n \n Masih Ada?`;
-                                const waLink = `https://api.whatsapp.com/send?phone=6289525032522&text=${encodeURIComponent(waMessage)}`;
-                                window.open(waLink, "_blank");
-                            });
+                    // Assuming the query parameter is used to match the product name
+                    const productName = getQueryParam("name");
+
+                    // Find the product that matches the query parameter 'name'
+                    const product = data.find(item => item.name === productName);
+                    
+                    if (product) {
+                        // Set product title and price
+                        document.getElementById("productTitle").textContent = product.name;
+                        document.getElementById("productPrice").textContent = `Rp ${product.price}`;
+                        document.getElementById("productDescription").textContent = product.description;
+
+                        // Set product details (engine, power, torque, etc.)
+                        const details = product.view.details;
+                        let detailsHTML = "";
+                        for (const key in details) {
+                            if (details.hasOwnProperty(key)) {
+                                detailsHTML += `<p><strong>${key.charAt(0).toUpperCase() + key.slice(1)}:</strong> ${details[key]}</p>`;
+                            }
                         }
-                    });
+                        document.getElementById("productDetails").innerHTML = detailsHTML;
+
+                        // Populate carousel images dynamically
+                        const carouselInner = document.getElementById("carouselImages");
+                        let isActive = true;
+                        Object.values(product.view.image).forEach((img, index) => {
+                            const carouselItem = document.createElement('div');
+                            carouselItem.classList.add('carousel-item');
+                            if (isActive) {
+                                carouselItem.classList.add('active');
+                                isActive = false;
+                            }
+
+                            const image = document.createElement('img');
+                            image.src = img.src;
+                            image.alt = img.alt;
+                            image.classList.add('d-block', 'w-100', 'gallery-image');
+
+                            carouselItem.appendChild(image);
+                            carouselInner.appendChild(carouselItem);
+                        });
+
+                        // Buy Now button action
+                        document.getElementById("buyNowButton").addEventListener("click", function() {
+                            const waMessage = `Hello, Apakah Barang \n \n ${product.name} \n \n Masih Ada?`;
+                            const waLink = `https://api.whatsapp.com/send?phone=6289525032522&text=${encodeURIComponent(waMessage)}`;
+                            window.open(waLink, "_blank");
+                        });
+                    } else {
+                        console.error("Product not found");
+                    }
                 })
                 .catch(error => console.error("Error loading JSON:", error));
+
+            function getQueryParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
         </script>        
 
         <footer class="text-center py-3">
