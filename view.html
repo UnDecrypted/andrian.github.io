@@ -10,6 +10,19 @@
             body {
                 overflow-x: hidden;
             }
+            .translate-button {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                z-index: 1000;
+            }
+            .translate-box {
+                position: fixed;
+                bottom: 80px;
+                right: 20px;
+                width: 250px;
+                display: none;
+            }
             .product-image {
                 max-width: 100%;
                 border-radius: 10px;
@@ -149,7 +162,35 @@
                 const urlParams = new URLSearchParams(window.location.search);
                 return urlParams.get(param);
             }
-        </script>        
+        </script>
+
+        <button class="btn btn-primary translate-button" onclick="toggleTranslate()">
+            🌍 Translate
+        </button>
+
+        <!-- Google Translate Widget Box -->
+        <div id="translateBox" class="translate-box card shadow p-3">
+            <h6 class="text-center">Select Language</h6>
+            <div class="btn btn-outline-dark" id="google_translate_element"></div>
+        </div>
+
+        <!-- Google Translate Script -->
+        <script>
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'en',
+                    includedLanguages: 'id,es,fr,de,ja',
+                    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                }, 'google_translate_element');
+            }
+
+            function toggleTranslate() {
+                let translateBox = document.getElementById("translateBox");
+                translateBox.style.display = (translateBox.style.display === "none" || translateBox.style.display === "") ? "block" : "none";
+            }
+        </script>
+
+        <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
         <footer class="text-center py-3">
             <p class="mb-0">© 2025 UnDecrypted.co. All Rights Reserved.</p>
