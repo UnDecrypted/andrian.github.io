@@ -11,7 +11,16 @@
                 "3": {"src": "https://www.micramoto.com/wp-content/uploads/2020/10/2020-Kawasaki-ZX-25R-micramoto-12.jpg","alt": "ZX-25R"},
                 "4": {"src": "https://www.micramoto.com/wp-content/uploads/2020/10/2020-Kawasaki-ZX-25R-micramoto-13.jpg","alt": "ZX-25R"}
             },
-            "details" : "Plus :\n Mahal \n Keren\n Enak dipakai harian\n\n Minus :\n Mahal\n Susah dicari sparepartnya\n\n Overall :\n Motor ini sangat cocok untuk kamu yang suka kecepatan dan performa tinggi. Namun, harga yang mahal dan sulitnya mencari sparepart bisa menjadi kendala bagi sebagian orang."
+            "details" : {
+                "engine": "4-stroke, 4-cylinder, DOHC, liquid-cooled, 249cc",
+                "power": "45 hp @ 15,500 rpm",
+                "torque": "22.9 Nm @ 14,500 rpm",
+                "transmission": "6-speed manual",
+                "brakes": "Dual disc brakes (front), single disc brake (rear)",
+                "suspension": "Inverted front forks, monoshock rear suspension",
+                "weight": "168 kg (370 lbs)",
+                "fuel_capacity": "15 liters (3.96 gallons)"
+            }
         }
     }
 ]
