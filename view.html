@@ -175,10 +175,30 @@
                 })
                 .catch(error => console.error("Error loading JSON:", error));
 
-            function getQueryParam(param) {
-                const urlParams = new URLSearchParams(window.location.search);
-                return urlParams.get(param);
-            }
+                // Function to check if cooldown is active
+                function isCooldownActive(storageKey) {
+                    const lastClick = localStorage.getItem(storageKey);
+                    if (!lastClick) return false;
+                
+                    const timePassed = Date.now() - parseInt(lastClick, 10);
+                    return timePassed < 5000; // Cooldown period (5 seconds)
+                }
+                
+                // Function to set cooldown in LocalStorage
+                function setCooldown(storageKey, cooldownTime) {
+                    localStorage.setItem(storageKey, Date.now());
+                }
+                
+                // Function to check cooldown on page load
+                function checkCooldown(button, storageKey) {
+                    if (isCooldownActive(storageKey)) {
+                        button.disabled = true;
+                        const remainingTime = 5000 - (Date.now() - parseInt(localStorage.getItem(storageKey), 10));
+                        setTimeout(() => {
+                            button.disabled = false;
+                        }, remainingTime);
+                    }
+                }
         </script>
 
         <button class="btn btn-primary translate-button" onclick="toggleTranslate()">
