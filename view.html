@@ -101,66 +101,68 @@
                 return urlParams.get(param);
             }
 
-            fetch("static/products.json")
-                .then(response => response.json())
-                .then(data => {
-                    // Assuming the query parameter is used to match the product name
-                    const productName = getQueryParam("name");
-
-                    // Find the product that matches the query parameter 'name'
-                    const product = data.find(item => item.name === productName);
-                    
-                    if (product) {
-                        // Set product title and price
-                        document.getElementById("productTitle").textContent = product.name;
-                        document.getElementById("productPrice").textContent = `Rp ${product.price}`;
-                        document.getElementById("productDescription").textContent = product.description;
-
-                        // Set product details (engine, power, torque, etc.)
-                        const details = product.view.details;
-                        let detailsHTML = "";
-                        for (const key in details) {
-                            if (details.hasOwnProperty(key)) {
-                                detailsHTML += `<p><strong>${key.charAt(0).toUpperCase() + key.slice(1)}:</strong> ${details[key]}</p>`;
-                            }
+            document.addEventListener("DOMContentLoaded", function() {
+                const buyNowButton = document.getElementById("buyNowButton");
+            
+                if (buyNowButton) {
+                    // Define product name for unique cooldown storage
+                    const productName = product.name;
+                    const storageKey = `buyCooldown_${productName}`;
+            
+                    // Check cooldown on page load
+                    checkCooldown(buyNowButton, storageKey);
+            
+                    buyNowButton.addEventListener("click", function() {
+                        // Check if cooldown is still active
+                        if (isCooldownActive(storageKey)) {
+                            alert("Please wait before buying again!");
+                            return;
                         }
-                        document.getElementById("productDetails").innerHTML = detailsHTML;
-
-                        // Populate carousel images dynamically
-                        const carouselInner = document.getElementById("carouselImages");
-                        let isActive = true;
-                        Object.values(product.view.image).forEach((img, index) => {
-                            const carouselItem = document.createElement('div');
-                            carouselItem.classList.add('carousel-item');
-                            if (isActive) {
-                                carouselItem.classList.add('active');
-                                isActive = false;
-                            }
-
-                            const image = document.createElement('img');
-                            image.src = img.src;
-                            image.alt = img.alt;
-                            image.classList.add('d-block', 'w-100', 'gallery-image');
-
-                            carouselItem.appendChild(image);
-                            carouselInner.appendChild(carouselItem);
-                        });
-
-                        // Buy Now button action
-                        document.getElementById("buyNowButton").addEventListener("click", function() {
-                            const waMessage = `Hello, Apakah Barang \n \n ${product.name} \n \n Masih Ada?`;
-                            const waLink = `https://api.whatsapp.com/send?phone=6288217875066&text=${encodeURIComponent(waMessage)}`;
-                            window.open(waLink, "_blank");
-                        });
-                    } else {
-                        console.error("Product not found");
-                    }
-                })
-                .catch(error => console.error("Error loading JSON:", error));
-
-            function getQueryParam(param) {
-                const urlParams = new URLSearchParams(window.location.search);
-                return urlParams.get(param);
+            
+                        // Set cooldown
+                        setCooldown(storageKey, 5000); // 5 seconds
+            
+                        // Disable button
+                        this.disabled = true;
+            
+                        // Open WhatsApp link
+                        const waMessage = `Hello, Apakah Barang \n \n ${productName} \n \n Masih Ada?`;
+                        const waLink = `https://api.whatsapp.com/send?phone=6288217875066&text=${encodeURIComponent(waMessage)}`;
+                        window.open(waLink, "_blank");
+            
+                        // Re-enable button after cooldown
+                        setTimeout(() => {
+                            this.disabled = false;
+                        }, 5000);
+                    });
+                } else {
+                    console.error("Buy Now button not found");
+                }
+            });
+            
+            // Function to check if cooldown is active
+            function isCooldownActive(storageKey) {
+                const lastClick = localStorage.getItem(storageKey);
+                if (!lastClick) return false;
+            
+                const timePassed = Date.now() - parseInt(lastClick, 10);
+                return timePassed < 5000; // Cooldown period (5 seconds)
+            }
+            
+            // Function to set cooldown in LocalStorage
+            function setCooldown(storageKey, cooldownTime) {
+                localStorage.setItem(storageKey, Date.now());
+            }
+            
+            // Function to check cooldown on page load
+            function checkCooldown(button, storageKey) {
+                if (isCooldownActive(storageKey)) {
+                    button.disabled = true;
+                    const remainingTime = 5000 - (Date.now() - parseInt(localStorage.getItem(storageKey), 10));
+                    setTimeout(() => {
+                        button.disabled = false;
+                    }, remainingTime);
+                }
             }
         </script>
 
