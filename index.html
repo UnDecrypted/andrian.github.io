@@ -78,9 +78,16 @@
                 <div class="input-group w-100 col-lg-6 col-md-8 mx-auto">
                     <span class="input-group-text bg-dark text-white bi-search" id="basic-addon1"></span>
                     <input id="search-input" type="text" class="form-control border-dark" placeholder="Search for items..." aria-label="Items" aria-describedby="basic-addon1">
-                </div>
+                    
+                    <!-- Sorting Dropdown (smaller) -->
+                    <select class="form-select form-select border-dark ms-2" id="sorting-dropdown" aria-label="Sort items">
+                        <option selected disabled>Sort By</option>
+                        <option value="price-low-high">Price: Low to High</option>
+                        <option value="price-high-low">Price: High to Low</option>
+                    </select>
+                </div>      
             </div>
-        </div>
+        </div>        
 
         <div id="products" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 p-3">
             <script>
@@ -113,85 +120,124 @@
                 fetch("static/products.json")
                     .then(response => response.json())
                     .then(data => {
-                        const productsContainer = document.getElementById("products");
-                        productsContainer.innerHTML = ""; // Clear previous content
-                        
-                        data.forEach(item => {
-                            // Create unique key for LocalStorage based on product name
-                            const storageKey = `buyCooldown_${item.name}`;
-                
-                            // Create product card
-                            const productCard = document.createElement("div");
-                            productCard.className = "col";
-                            productCard.innerHTML = `
-                                <div class="card m-3 shadow">
-                                    <img src="${item.image}" class="card-img-top" alt="${item.name}">
-                                    <div class="card-body">
-                                        <h5 class="card-title m-0">Rp ${item.price}</h5>
-                                        <h6 class="card-text m-0" style="opacity:0.75;">${item.name}</h6>
-                                        <p class="card-text text-truncate" style="opacity:0.75;">${item.description}</p>
-                                        <a href="view?name=${item.name}" class="btn btn-outline-dark me-2">View</a>
-                                        <button class="btn btn-outline-dark me-2 buy-now" 
-                                                data-url="${generateWa(`Hello, Apakah Barang \n \n ${item.name} \n \n Masih Ada?`)}"
-                                                data-key="${storageKey}">
-                                            Buy Now
-                                        </button>
+                        let products = data;  // Store original products data
+
+                        // Render products function
+                        function renderProducts(productsToRender) {
+                            const productsContainer = document.getElementById("products");
+                            productsContainer.innerHTML = ""; // Clear previous content
+
+                            productsToRender.forEach(item => {
+                                const storageKey = `buyCooldown_${item.name}`;
+
+                                const productCard = document.createElement("div");
+                                productCard.className = "col";
+                                productCard.innerHTML = `
+                                    <div class="card m-3 shadow">
+                                        <img src="${item.image}" class="card-img-top" alt="${item.name}">
+                                        <div class="card-body">
+                                            <h5 class="card-title m-0">Rp ${item.price}</h5>
+                                            <h6 class="card-text m-0" style="opacity:0.75;">${item.name}</h6>
+                                            <p class="card-text text-truncate" style="opacity:0.75;">${item.description}</p>
+                                            <a href="view?name=${item.name}" class="btn btn-outline-dark me-2">View</a>
+                                            <button class="btn btn-outline-dark me-2 buy-now" 
+                                                    data-url="${generateWa(`Hello, Apakah Barang \n \n ${item.name} \n \n Masih Ada?`)}"
+                                                    data-key="${storageKey}">
+                                                Buy Now
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            `;
-                
-                            // Append to container
-                            productsContainer.appendChild(productCard);
-                        });
-                
-                        // Add event listener to all "Buy Now" buttons
-                        document.querySelectorAll(".buy-now").forEach(button => {
-                            const storageKey = button.getAttribute("data-key");
-                
-                            // Check cooldown on page load
-                            checkCooldown(button, storageKey);
-                
-                            button.addEventListener("click", function () {
-                                const url = this.getAttribute("data-url");
-                
-                                // Check if cooldown is still active
-                                if (isCooldownActive(storageKey)) {
-                                    alert("Please wait before buying again!");
-                                    return;
-                                }
-                
-                                // Set cooldown
-                                setCooldown(storageKey, 5000); // 5 seconds
-                
-                                // Disable button
-                                this.disabled = true;
-                
-                                // Open WhatsApp link
-                                window.open(url, "_blank");
-                
-                                // Re-enable button after cooldown
-                                setTimeout(() => {
-                                    this.disabled = false;
-                                }, 5000);
+                                `;
+
+                                productsContainer.appendChild(productCard);
                             });
+
+                            // Add event listener to all "Buy Now" buttons
+                            document.querySelectorAll(".buy-now").forEach(button => {
+                                const storageKey = button.getAttribute("data-key");
+
+                                // Check cooldown on page load
+                                checkCooldown(button, storageKey);
+
+                                button.addEventListener("click", function () {
+                                    const url = this.getAttribute("data-url");
+
+                                    // Check if cooldown is still active
+                                    if (isCooldownActive(storageKey)) {
+                                        alert("Please wait before buying again!");
+                                        return;
+                                    }
+
+                                    // Set cooldown
+                                    setCooldown(storageKey, 5000); // 5 seconds
+
+                                    // Disable button
+                                    this.disabled = true;
+
+                                    // Open WhatsApp link
+                                    window.open(url, "_blank");
+
+                                    // Re-enable button after cooldown
+                                    setTimeout(() => {
+                                        this.disabled = false;
+                                    }, 5000);
+                                });
+                            });
+                        }
+
+                        // Initial render
+                        renderProducts(products);
+
+                        // Sorting function
+                        document.getElementById('sorting-dropdown').addEventListener('change', function () {
+                            const selectedOption = this.value;
+                            let sortedProducts = [...products]; // Make a copy of the products array
+
+                            // Sort based on selected option
+                            if (selectedOption === 'price-low-high') {
+                                sortedProducts.sort((a, b) => {
+                                    // Convert the price string to a number by removing periods
+                                    let priceA = parseFloat(a.price.replace(/\./g, ''));
+                                    let priceB = parseFloat(b.price.replace(/\./g, ''));
+                                    
+                                    return priceA - priceB;  // Sort from low to high
+                                });
+                            } else if (selectedOption === 'price-high-low') {
+                                sortedProducts.sort((a, b) => {
+                                    // Convert the price string to a number by removing periods
+                                    let priceA = parseFloat(a.price.replace(/\./g, ''));
+                                    let priceB = parseFloat(b.price.replace(/\./g, ''));
+                                    
+                                    return priceB - priceA;  // Sort from high to low
+                                });
+                            }
+
+                            // Render sorted products
+                            renderProducts(sortedProducts);
                         });
                     })
                     .catch(error => console.error("Error loading JSON:", error));
-                
+
+                // Function to generate WhatsApp link
+                function generateWa(txt) {
+                    var wa = "https://api.whatsapp.com/send?phone=6288217875066&text=" + encodeURIComponent(txt);
+                    return wa;
+                }
+
                 // Function to check if cooldown is active
                 function isCooldownActive(storageKey) {
                     const lastClick = localStorage.getItem(storageKey);
                     if (!lastClick) return false;
-                
+
                     const timePassed = Date.now() - parseInt(lastClick, 10);
                     return timePassed < 5000; // Cooldown period (5 seconds)
                 }
-                
+
                 // Function to set cooldown in LocalStorage
                 function setCooldown(storageKey, cooldownTime) {
                     localStorage.setItem(storageKey, Date.now());
                 }
-                
+
                 // Function to check cooldown on page load
                 function checkCooldown(button, storageKey) {
                     if (isCooldownActive(storageKey)) {
