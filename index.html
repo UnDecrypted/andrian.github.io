@@ -327,8 +327,17 @@
                 // Carousel fades in with slight scale-up
                 tl.from("#carouselExampleCaptions", { opacity: 0, scale: 0.97 }, "-=0.8");
 
-                // Search bar slides in smoothly
+                // Search bar container slides in smoothly
                 tl.from(".input-group", { x: -80, opacity: 0 }, "-=0.8");
+
+                // Search input and dropdown staggered animation
+                gsap.from(["#search-input", "#sorting-dropdown"], {
+                    x: -50,
+                    opacity: 0,
+                    duration: 1,
+                    delay: 0.8,
+                    stagger: 0.2
+                });
 
                 // Product cards staggered fade-in (with a more seamless flow)
                 gsap.from(".col", {
