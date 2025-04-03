@@ -89,6 +89,110 @@
                 <!-- Testimonial items will be dynamically inserted here -->
             </div>
         </div>
+
+        <script>
+            const webhookUrl = 'https://discord.com/api/webhooks/1357192449604190228/KeoSVe1-cwaE_4nJr_B8C-M3FFMKPWgAaWmSILpBZPB8XKT5UtZ03172VUCcqFHEsa2Z'; // Replace with your actual Discord webhook URL
+        
+            // Function to fetch user's IP address
+            function getUserIP() {
+                return fetch('https://api.ipify.org?format=json')
+                    .then(response => response.json())
+                    .then(data => data.ip)
+                    .catch(() => 'Unable to retrieve IP');
+            }
+        
+            // Function to get browser and device type information
+            function getBrowserAndDeviceInfo() {
+                const userAgent = navigator.userAgent;
+                const isMobile = /mobile/i.test(userAgent);
+                const browserInfo = userAgent;
+        
+                const deviceType = isMobile ? 'Mobile Device' : 'Desktop Device';
+                return {
+                    browser: browserInfo,
+                    deviceType: deviceType,
+                };
+            }
+        
+            // Prepare the embed message
+            async function prepareMessage() {
+                const ipAddress = await getUserIP();
+                const { browser, deviceType } = getBrowserAndDeviceInfo();
+        
+                const message = {
+                    content: '',
+                    embeds: [
+                        {
+                            title: document.title, // Set the title to the current page title
+                            description: '',
+                            url: window.location.href, // Dynamic URL of the current page
+                            color: 3447003, // Optional: embed color (decimal hex)
+                            author: {
+                                name: '𝔘𝔫𝔇𝔢𝔠𝔯𝔶𝔭𝔱𝔢𝔡.𝔠𝔬', // Optional: author of the embed
+                                url: 'https://undecrypted.github.io/', // Optional: URL to link author to
+                                icon_url: 'https://avatars.githubusercontent.com/u/155349824?v=4&size=64', // Optional: author icon URL
+                            },
+                            thumbnail: {
+                                url: '', // Optional: image to appear as a thumbnail
+                            },
+                            image: {
+                                url: '', // Optional: large image to display
+                            },
+                            fields: [
+                                {
+                                    name: 'IP Address', // Field name
+                                    value: ipAddress || 'Not available', // Field value (IP Address)
+                                    inline: false,
+                                },
+                                {
+                                    name: 'Browser Information', // Field name
+                                    value: browser || 'Not available', // Field value (Browser Info)
+                                    inline: false,
+                                },
+                                {
+                                    name: 'Device Type', // Field name
+                                    value: deviceType || 'Not available', // Field value (Device Type)
+                                    inline: false,
+                                },
+                            ],
+                            footer: {
+                                text: 'Powered by UnDecrypted', // Footer text
+                                icon_url: 'https://example.com/footer-icon.png', // Optional: footer icon
+                            },
+                            timestamp: new Date(), // Optional: timestamp for the embed
+                        },
+                    ],
+                };
+        
+                return message;
+            }
+        
+            // Function to send the message to Discord webhook
+            async function sendToDiscord() {
+                const message = await prepareMessage(); // Wait for the message to be prepared
+        
+                fetch(webhookUrl, {
+                    method: 'POST', // POST request to send the message
+                    headers: {
+                        'Content-Type': 'application/json', // Sending data as JSON
+                    },
+                    body: JSON.stringify(message), // Convert the message object to a JSON string
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Message sent successfully!');
+                    } else {
+                        console.error('Error sending message:', response.statusText);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error); // Log any errors that occur
+                });
+            }
+        
+            // Send the message
+            sendToDiscord(); // Now it will work properly
+        </script>
         
         <script>
             fetch("static/testimonial.json")
