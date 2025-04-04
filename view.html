@@ -87,12 +87,13 @@
                     <h2 id="productTitle" class="product-title"></h2>
                     <p id="productDescription" class="text-muted"></p>
                     <p id="productPrice" class="price"></p>
-                    <p id="productDetails" class="card-text"></p>
-        
+                
                     <div class="d-flex">
                         <button class="btn btn-outline-dark" id="buyNowButton">Buy Now</button>
                     </div>
-                </div>
+                    
+                    <p id="productDetails" class="card-text mt-3"></p>
+                </div>                
             </div>
         </div>
 
@@ -119,13 +120,93 @@
 
                         // Set product details (engine, power, torque, etc.)
                         const details = product.view.details;
-                        let detailsHTML = "";
-                        for (const key in details) {
-                            if (details.hasOwnProperty(key)) {
-                                detailsHTML += `<p><strong>${key.charAt(0).toUpperCase() + key.slice(1)}:</strong> ${details[key]}</p>`;
+                        function displayDetails(json) {
+                            const details = json.details;
+                            let detailsHTML = "<div class='row'>";
+                            
+                            for (const key in details) {
+                                if (details.hasOwnProperty(key)) {
+                                    let icon = "";
+                                    switch(key) {
+                                        case "brand":
+                                            icon = "🏍️";
+                                            break;
+                                        case "power":
+                                            icon = "⚡";
+                                            break;
+                                        case "torque":
+                                            icon = "🔩";
+                                            break;
+                                        case "transmission":
+                                            icon = "⚙️";
+                                            break;
+                                        case "brakes":
+                                            icon = "🛑";
+                                            break;
+                                        case "suspension":
+                                            icon = "🛠️";
+                                            break;
+                                        case "weight":
+                                            icon = "⚖️";
+                                            break;
+                                        case "fuel_capacity":
+                                            icon = "⛽";
+                                            break;
+                                        case "engine":
+                                            icon = "🏎️";
+                                            break;
+                                        case "features":
+                                            icon = "✨";
+                                            break;
+                                        case "keys":
+                                            icon = "🔑";
+                                            break;
+                                        case "registration":
+                                            icon = "📅";
+                                            break;
+                                        case "mileage_km":
+                                            icon = "📏";
+                                            break;
+                                        case "modifications":
+                                            icon = "⚙️";
+                                            break;
+                                        case "original_parts":
+                                            icon = "🔧";
+                                            break;
+                                        default:
+                                            icon = "🔍";
+                                            break;
+                                    }
+
+                                    detailsHTML += `
+                                        <div class='col-md-4 d-flex align-items-stretch'>
+                                            <div class='card mb-3 w-100'>
+                                                <div class='card-body d-flex flex-column'>
+                                                    <h5 class='card-title'>${icon} ${key.charAt(0).toUpperCase() + key.slice(1)}</h5>
+                                                    <p class='card-text flex-grow-1'>${formatDetail(details[key])}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `;
+                                }
+                            }
+                            detailsHTML += "</div>";
+                            document.getElementById("productDetails").innerHTML = detailsHTML;
+                        }
+
+                        function formatDetail(detail) {
+                            if (typeof detail === 'object' && !Array.isArray(detail)) {
+                                return Object.entries(detail)
+                                    .map(([key, value]) => `<strong>${key.charAt(0).toUpperCase() + key.slice(1)}:</strong> ${value}`)
+                                    .join('<br>');
+                            } else if (Array.isArray(detail)) {
+                                return detail.join(", ");
+                            } else {
+                                return detail;
                             }
                         }
-                        document.getElementById("productDetails").innerHTML = detailsHTML;
+
+                        displayDetails(product.view);
 
                         // Populate carousel images dynamically
                         const carouselInner = document.getElementById("carouselImages");
