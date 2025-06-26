@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Lyric Loop Karaoke</title>
+  <title>Timestamp Synced Karaoke</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://unpkg.com/split-type"></script>
@@ -13,26 +13,29 @@
   <div class="text-center" id="lyricContainer"></div>
 
   <!-- 🎵 Background Music -->
-  <audio id="bgm" src="https://undecrypted.github.io/tren/aa.mp3" preload="auto" loop></audio>
-  
+  <audio id="bgm" src="https://undecrypted.github.io/tren/aa.mp3" preload="auto"></audio>
+
   <button id="startBtn" class="fixed bottom-8 px-6 py-2 bg-white text-black font-bold rounded">Start Karaoke</button>
 
   <script>
     const lyrics = [
-      { text: "Sudah Terbiasa", duration: 4000 },
-      { text: "Terjadi Tante...", duration: 3000 },
-      { text: "Kamu Pergi Lagi", duration: 5000 },
-      { text: "Dan Aku Masih Di Sini", duration: 4500 }
+      { text: "Sudah Terbiasa", start: 3 },
+      { text: "Terjadi Tante...", start: 4 },
+      { text: "Teman Datang", start: 6 },
+      { text: "Ketika Lagi", start: 8 },
+      { text: "Butuh Saja", start: 9 },
+      { text: "Coba Kalau", start: 11 },
+      { text: "Masih Susah...", start: 12 },
+      { text: "Mereka Semua Menghilang...", start: 14 }
     ];
 
     const container = document.getElementById("lyricContainer");
     const bgm = document.getElementById("bgm");
     let currentIndex = 0;
+    let showing = false;
 
-    function showLyric(index) {
-      const lyric = lyrics[index];
-      container.innerHTML = `<h1 class="text-5xl font-bold leading-tight" id="lyric">${lyric.text}</h1>`;
-
+    function showLyric(text) {
+      container.innerHTML = `<h1 class="text-5xl font-bold leading-tight" id="lyric">${text}</h1>`;
       const split = new SplitType("#lyric", { types: 'chars' });
 
       gsap.from(split.chars, {
@@ -43,26 +46,31 @@
         ease: "power2.out"
       });
 
-      const outDelay = (lyric.duration * 0.6) / 1000;
+      // Fade out after 3 seconds
       gsap.to(split.chars, {
         opacity: 0,
         y: -20,
         stagger: 0.03,
-        duration: 0.8,
-        delay: outDelay,
+        duration: 1,
+        delay: 3,
         ease: "power2.in"
       });
-
-      setTimeout(() => {
-        currentIndex = (currentIndex + 1) % lyrics.length;
-        showLyric(currentIndex);
-      }, lyric.duration);
     }
 
-    // ✅ Start music and lyrics on user gesture (required by browsers)
+    function syncLyrics() {
+      const time = bgm.currentTime;
+
+      if (currentIndex < lyrics.length && time >= lyrics[currentIndex].start) {
+        showLyric(lyrics[currentIndex].text);
+        currentIndex++;
+      }
+
+      requestAnimationFrame(syncLyrics);
+    }
+
     document.getElementById("startBtn").addEventListener("click", () => {
       bgm.play();
-      showLyric(currentIndex);
+      syncLyrics();
       document.getElementById("startBtn").style.display = "none";
     });
   </script>
