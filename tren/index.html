@@ -31,7 +31,8 @@
             { text: "Menghilangg...", start: 15400 },
             { text: "Tante...", start: 19600 },
             { text: "Tantee...", start: 23300 },
-            { text: "Tanteee...", start: 27000 }
+            { text: "Tanteee...", start: 27000 },
+            { text: ":)", start: 29000 }
         ];
 
         const container = document.getElementById("lyricContainer");
@@ -57,7 +58,7 @@
                 rotateX: 90,
                 stagger: 0.02,
                 duration: (lyrics[currentIndex+1].start - lyrics[currentIndex].start) / 1000 / 2,
-                delay: 3,
+                delay: (lyrics[currentIndex+1].start - lyrics[currentIndex].start) / 1000 / 2,
                 ease: "power2.in"
             });
         }
